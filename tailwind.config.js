@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
       colors: {
@@ -59,6 +58,9 @@ module.exports = {
         '3xl': ['6rem', { lineHeight: '1' }],
         '4xl': ['4rem', { lineHeight: '1.2' }],
         '5xl': ['8rem', { lineHeight: '1.2' }],
+      },
+      width: {
+        13.375: '10rem',
       },
       keyframes: {
         sidebarExpand: {
