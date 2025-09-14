@@ -11,7 +11,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string
   icon?: string | ReactNode
   placement?: 'start' | 'end'
-  variant?: 'search'
+  variant?: string
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
@@ -28,14 +28,16 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const mergeRefs = useMergeRefs([ref, inputRef])
 
   const inputWrapperClass = classnames(
-    'w-full h-fit relative rounded-md bg-ch-neutral-800 placeholder:text-ch-light-grey border-none focus-within:ring-2 focus-within:ring-ch-white'
+    'w-full h-fit relative rounded-lg focus-within:ring-2 focus-within:ring-ch-white'
   )
 
   const inputClass = classnames(
-    'w-full h-10 p-2 text-ch-lighter-grey text-sm focus:outline-none placeholder:text-xs rounded-md',
+    'w-full h-11 p-2 text-ch-lighter-grey text-xs text-white focus:outline-none placeholder:text-xs rounded-lg placeholder:font-medium',
     {
       '!pl-12': icon && placement === 'start',
       '!pr-12': icon && placement === 'end',
+      'bg-ch-neutral-800 placeholder:text-ch-grey border-none':
+        variant === 'search',
     }
   )
 

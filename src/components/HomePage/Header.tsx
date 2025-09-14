@@ -8,7 +8,7 @@ const Header = () => {
   const [selectedUnit, setSelectedUnit] = useState('')
   const [system, setSystem] = useState<UnitSystem>('metric')
   return (
-    <header className="w-full p-4 md:py-6 lg:px-16 xl:px-20">
+    <header className="w-full py-4 md:py-6">
       <div className="flex items-center justify-between">
         <img className="w-1/2 sm:w-48" src={Logo} alt="weather logo" />
         <UnitsDropdown

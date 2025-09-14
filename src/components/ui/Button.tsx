@@ -35,7 +35,7 @@ const Button = forwardRef(
       <button
         className={classname(
           className,
-          'w-full p-2 font-medium rounded-md focus:outline focus:outline-2 focus-outline-ch-light-blue active:-translate-y-0.5 outline-none transition-all ease-in-out disabled:opacity-50 disabled:cursor-not-allowed',
+          'w-full h-11 font-medium rounded-lg focus:outline focus:outline-2 focus-outline-ch-light-blue outline-none transition-all ease-in-out disabled:opacity-50 disabled:cursor-not-allowed',
           {
             'bg-ch-light-blue hover:bg-ch-dark-blue text-white':
               variant === 'primary',
@@ -45,8 +45,7 @@ const Button = forwardRef(
           { 'text-sm': size === 'sm' },
           { 'text-xs': size === 'xs' },
           {
-            'hover:-translate-y-0.5 active:scale-95 duration-[400ms] ease-in-out':
-              variant === 'primary',
+            'duration-[400ms] ease-in-out': variant === 'primary',
           }
         )}
         type={type}
