@@ -1,6 +1,6 @@
 export { default as Cancel } from './Cancel'
 export { default as Checkmark } from './Checkmark'
-export { default as Dropdown } from './Dropdown'
+export { default as DropdownIcon } from './Dropdown'
 export { default as Loading } from './Loading'
 export { default as Search } from './Search'
 export { default as Setting } from './Setting'

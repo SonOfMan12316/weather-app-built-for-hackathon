@@ -49,18 +49,18 @@ module.exports = {
         1800: '8.75rem',
       },
       fontSize: {
-        xs: ['0.875rem', { lineHeight: '1.2' }],
-        sm: ['1.125rem', { lineHeight: '1.2' }],
-        base: ['1.25rem', { lineHeight: '1.2' }],
-        lg: ['1.75rem', { lineHeight: '1.2' }],
-        xl: ['2rem', { lineHeight: '1' }],
+        xs: ['0.875rem'],
+        sm: ['1.125rem'],
+        base: ['1.25rem'],
+        lg: ['1.75rem'],
+        xl: ['2rem'],
         '2xl': ['3.25rem', { lineHeight: '1.2' }],
         '3xl': ['6rem', { lineHeight: '1' }],
         '4xl': ['4rem', { lineHeight: '1.2' }],
         '5xl': ['8rem', { lineHeight: '1.2' }],
       },
       width: {
-        13.375: '10rem',
+        12.65: '12.65rem',
       },
       keyframes: {
         sidebarExpand: {

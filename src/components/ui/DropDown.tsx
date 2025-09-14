@@ -6,7 +6,7 @@ import type {
   UsableDropdownProps,
   UnitSystem,
 } from '../../types/global'
-import { DropdownIcon } from '../icons'
+import { Checkmark, DropdownIcon } from '../icons'
 import useClickOutside from '../hooks/useClickOutside'
 import { dayGroups, unitGroups } from '../../data/DropdownOptions'
 import classnames from 'classnames'
@@ -21,6 +21,7 @@ const Dropdown = ({
   icon,
   system,
   onSwitchSystem,
+  showLine,
 }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useClickOutside(() => setIsOpen(false))
@@ -72,39 +73,52 @@ const Dropdown = ({
         <span className={`dropdown-arrow ${isOpen ? 'open' : ''}`}></span>
       </button>
       {isOpen && (
-        <div className="absolute right-0 mt-1 w-13.375" role="listbox">
+        <div
+          className="absolute right-0 mt-1.5 py-2 px-1.5 w-12.65 border border-ch-neutral-600 bg-ch-neutral-800 rounded-lg text-white"
+          role="listbox"
+        >
           {hasGroups
             ? (options as DropdownGroup[]).map((group, index) => (
-                <div
-                  key={index}
-                  className="border border-ch-neutral-600 bg-ch-neutral-800 text-white py-2.5 px-2 rounded-lg"
-                >
-                  <div className="text-white text-xs">{group.title}</div>
+                <div key={index} className="">
+                  {group.title && (
+                    <div
+                      className={`${
+                        group.title === 'Temperature' ||
+                        group.title === 'Wind Speed' ||
+                        group.title === 'Precipitation'
+                          ? 'text-ch-grey text-xs font-normal pb-1 mt-1'
+                          : 'text-white text-xs font-medium pb-1.5'
+                      } pl-1.5`}
+                    >
+                      {group.title}
+                    </div>
+                  )}
                   {group.options.map((option, optIndex) => {
                     const isActive = option.system === system
-                    const isSwitchText = option.value === 'switch'
                     const isSelected = selectedValue === option.value
-
                     return (
-                      <div
-                        key={optIndex}
-                        className={classnames(
-                          'font-normal cursor-pointer rounded pl-1',
-                          {
-                            'py-1.5 bg-ch-neutral-700': isActive,
-                            'text-white': isSwitchText,
-                            'text-ch-grey': !isActive,
-                            'ring-1 ring-ch-grey': isSelected,
-                          }
-                        )}
-                        onClick={() => handleSelect(option.value)}
-                        role="option"
-                        aria-selected={isSelected}
-                      >
-                        {option.label}
+                      <div key={optIndex}>
+                        <div
+                          className={classnames(
+                            'flex justify-between items-center font-normal cursor-pointer rounded pl-1.5 px-1.5 py-1.5 mb-1 text-white',
+                            {
+                              'bg-ch-neutral-700 rounded-lg ': isActive,
+                              'pb-2': option.value === 'switch',
+                            }
+                          )}
+                          onClick={() => handleSelect(option.value)}
+                          role="option"
+                          aria-selected={isSelected}
+                        >
+                          {option.label}
+                          {isActive && <Checkmark />}
+                        </div>
                       </div>
                     )
                   })}
+                  {showLine && group.title && index < options.length - 1 && (
+                    <div className="border-b rounded-lg border-ch-neutral-600"></div>
+                  )}
                 </div>
               ))
             : (options as DropdownOption[]).map((option, index) => (
@@ -132,20 +146,24 @@ export const UnitsDropdown = ({
   icon,
   system,
   onSwitchSystem,
+  showLine,
 }: UsableDropdownProps & {
   system: UnitSystem
   onSwitchSystem: (s: UnitSystem) => void
 }) => {
   return (
-    <Dropdown
-      options={unitGroups(system)}
-      onSelect={onSelect}
-      placeholder="Units"
-      className={className}
-      icon={icon}
-      system={system}
-      onSwitchSystem={onSwitchSystem}
-    />
+    <div className="space-y-2">
+      <Dropdown
+        options={unitGroups(system)}
+        onSelect={onSelect}
+        placeholder="Units"
+        className={className}
+        icon={icon}
+        system={system}
+        onSwitchSystem={onSwitchSystem}
+        showLine={showLine}
+      />
+    </div>
   )
 }
 

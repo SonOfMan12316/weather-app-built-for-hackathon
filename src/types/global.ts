@@ -22,6 +22,7 @@ export interface DropdownProps {
   placement?: 'start'
   system?: string
   onSwitchSystem?: (s: UnitSystem) => void
+  showLine?: boolean
 }
 
 export interface UsableDropdownProps {
@@ -29,6 +30,7 @@ export interface UsableDropdownProps {
   selectedValue?: string
   className?: string
   icon?: string | ReactNode
+  showLine?: boolean
 }
 
 export type UnitSystem = 'metric' | 'imperial'

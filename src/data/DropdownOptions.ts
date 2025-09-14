@@ -7,12 +7,26 @@ export const unitGroups = (system: UnitSystem): DropdownGroup[] => [
       {
         value: 'switch',
         label: `Switch to ${system === 'metric' ? 'Imperial' : 'Metric'}`,
-        system: 'all',
       },
+    ],
+  },
+  {
+    title: 'Temperature',
+    options: [
       { value: 'celsius', label: 'Celsius (°C)', system: 'metric' },
       { value: 'fahrenheit', label: 'Fahrenheit (°F)', system: 'imperial' },
+    ],
+  },
+  {
+    title: 'Wind Speed',
+    options: [
       { value: 'km/h', label: 'km/h', system: 'metric' },
       { value: 'mph', label: 'mph', system: 'imperial' },
+    ],
+  },
+  {
+    title: 'Precipitation',
+    options: [
       { value: 'mm', label: 'Millimeters (mm)', system: 'metric' },
       { value: 'inches', label: 'Inches (in)', system: 'imperial' },
     ],
