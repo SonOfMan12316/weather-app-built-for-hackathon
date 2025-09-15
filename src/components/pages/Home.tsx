@@ -1,10 +1,10 @@
-import Header from '../HomePage/Header'
+import { Header, WeatherInfo, Forecast } from '../HomePage'
 import { Search } from '../icons'
 import { Button, Input } from '../ui'
 
 const Home = () => {
   return (
-    <div className="w-screen px-4 lg:px-16 xl:px-20 h-screen bg-ch-neutral-900 text-ch-neutral-900">
+    <div className="w-screen px-3 md:px-6 lg:px-16 xl:px-20 pb-4 bg-ch-neutral-900 text-ch-neutral-900">
       <Header />
       <div className="py-5 sm:w-8/12 lg:w-full sm:mx-auto">
         <h1 className="font-bricolage font-bold text-xl sm:text-2xl text-white text-center">
@@ -23,6 +23,8 @@ const Home = () => {
           <Button size="xs">Search</Button>
         </div>
       </div>
+      <WeatherInfo />
+      <Forecast />
     </div>
   )
 }
