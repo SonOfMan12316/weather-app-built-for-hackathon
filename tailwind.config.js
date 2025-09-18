@@ -63,14 +63,6 @@ module.exports = {
         12.65: '12.65rem',
       },
       keyframes: {
-        sidebarExpand: {
-          '0%': { width: '5.5rem' },
-          '100%': { width: '14rem' },
-        },
-        sidebarCollapse: {
-          '0%': { 'min-width': '14rem' },
-          '100%': { 'min-width': '5.5rem' },
-        },
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
@@ -83,14 +75,27 @@ module.exports = {
           '0%': { transform: 'translateY(0)', opacity: 1 },
           '100%': { transform: 'translateY(100%)', opacity: 0 },
         },
+        dropdown: {
+          '0%': { opacity: '0', transform: 'translateY(-8px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'dropdown-reverse': {
+          '0%': { opacity: '1', transform: 'translateY(0)' },
+          '100%': { opacity: '0', transform: 'translateY(-8px)' },
+        },
       },
-      backgroundImage: {},
+      backgroundImage: {
+        desktopBg: "url('/images/desktop-hero-bg.png')",
+        mobileBg: "url('/images/mobile-hero-bg.png')",
+      },
       animation: {
         'sidebar-expand': 'sidebarExpand 0.5s ease-in-out forwards',
         'sidebar-collapse': 'sidebarCollapse 0.3s ease-in-out forwards',
         'fade-in': 'fadeIn 0.5s ease-in',
         slideUp: 'slideUp 0.15s ease-out forwards',
         slideDown: 'slideDown 0.15s ease-in forwards',
+        dropdown: 'dropdown 500ms cubic-bezier(.2,.8,.2,1)',
+        'dropdown-reverse': 'dropdown-reverse 500ms cubic-bezier(.4,.0,.6,1)',
       },
       screens: {
         xl: '1200px',
