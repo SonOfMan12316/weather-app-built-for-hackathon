@@ -1,15 +1,22 @@
 import { useState } from 'react'
 import { DaysDropdown } from '../ui/DropDown'
 import { HourlyForecastDetails } from '../../data/WeatherDeatails'
+import { getDay } from '../../utils/date'
 
 const HourlyForecast = () => {
   const [selectedDay, setSelectedDay] = useState('')
+  const [currentDay] = useState<string>(() => getDay(''))
 
   return (
-    <div className="p-5 mt-7 bg-ch-neutral-800 rounded-xl">
-      <div className="flex justify-between items-center mb-3">
+    <div className="p-5 mt-7 bg-ch-neutral-800 rounded-2xl">
+      <div className="flex justify-between items-center mb-4">
         <h1 className="text-sm font-semibold text-white">Hourly forecast</h1>
-        <DaysDropdown onSelect={setSelectedDay} variant="days" />
+        <DaysDropdown
+          onSelect={setSelectedDay}
+          selectedValue={selectedDay}
+          placeholder={currentDay}
+          variant="days"
+        />
       </div>
       <div className="flex flex-col space-y-3">
         {HourlyForecastDetails.map((dayForecast, index) => (

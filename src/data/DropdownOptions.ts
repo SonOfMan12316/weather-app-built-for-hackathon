@@ -35,8 +35,9 @@ export const unitGroups = (system: UnitSystem): DropdownGroup[] => [
 
 export const dayGroups: DropdownGroup[] = [
   {
-    title: 'Monday',
+    title: '',
     options: [
+      { value: 'monday', label: 'Monday' },
       { value: 'tuesday', label: 'Tuesday' },
       { value: 'wednesday', label: 'Wednesday' },
       { value: 'thursday', label: 'Thursday' },

@@ -28,7 +28,7 @@ const Dropdown = ({
   const dropdownRef = useClickOutside(() => setIsOpen(false))
 
   const handleSelect = (value: string) => {
-    if (value === 'switch') {
+    if (value === 'switch' && system) {
       const nextSystem = system === 'metric' ? 'imperial' : 'metric'
       onSwitchSystem?.(nextSystem)
       return
@@ -64,7 +64,7 @@ const Dropdown = ({
     <div className={`relative ${className}`} ref={dropdownRef}>
       <button
         className={classnames(
-          `h-10 flex space-x-2 px-3 items-center bg-ch-neutral-800 text-white rounded-lg font-medium text-xs`,
+          `h-10 flex space-x-3 px-4 items-center text-white rounded-lg font-medium text-xs`,
           { 'bg-ch-neutral-800': variant === 'unit' },
           { 'bg-ch-neutral-600': variant === 'days' }
         )}
@@ -79,7 +79,7 @@ const Dropdown = ({
       {isOpen && (
         <div
           className={classnames(
-            'absolute right-0 mt-1.5 py-2 px-1.5 w-12.65 border border-ch-neutral-600 bg-ch-neutral-800 rounded-lg text-white z-50',
+            'absolute right-0 mt-2 py-1 px-1.5 w-12.65 border border-ch-neutral-600 bg-ch-neutral-800 rounded-2xl text-white z-50',
             {
               'animate-dropdown': isOpen,
               'animate-dropdown-reverse': !isOpen,
@@ -96,7 +96,7 @@ const Dropdown = ({
                         group.title === 'Temperature' ||
                         group.title === 'Wind Speed' ||
                         group.title === 'Precipitation'
-                          ? 'text-ch-grey text-xs font-normal pb-1 mt-1'
+                          ? 'text-ch-grey text-xs font-medium pt-1 pb-1.5 mt-1'
                           : 'text-white text-xs font-medium pb-1.5'
                       } pl-1.5`}
                     >
@@ -104,16 +104,18 @@ const Dropdown = ({
                     </div>
                   )}
                   {group.options.map((option, optIndex) => {
-                    const isActive = option.system === system
+                    const activeUnitSystem =
+                      'system' in option && option.system === system
                     const isSelected = selectedValue === option.value
                     return (
                       <div key={optIndex}>
                         <div
                           className={classnames(
-                            'flex justify-between items-center font-normal cursor-pointer rounded pl-1.5 px-1.5 py-1.5 mb-1 text-white',
+                            'flex justify-between hover:bg-ch-neutral-700 items-center font-normal cursor-pointer rounded-lg pl-1.5 px-1.5 py-2 mb-1 text-white',
                             {
-                              'bg-ch-neutral-700 rounded-lg ': isActive,
-                              'pb-2': option.value === 'switch',
+                              'bg-ch-neutral-700':
+                                activeUnitSystem || isSelected,
+                              'pb-2.5': option.value === 'switch',
                             }
                           )}
                           onClick={() => handleSelect(option.value)}
@@ -121,7 +123,7 @@ const Dropdown = ({
                           aria-selected={isSelected}
                         >
                           {option.label}
-                          {isActive && <Checkmark />}
+                          {activeUnitSystem && <Checkmark />}
                         </div>
                       </div>
                     )
@@ -184,13 +186,14 @@ export const DaysDropdown = ({
   selectedValue,
   className,
   variant,
+  placeholder,
 }: UsableDropdownProps) => {
   return (
     <Dropdown
       options={dayGroups}
       onSelect={onSelect}
       selectedValue={selectedValue}
-      placeholder="Tuesday"
+      placeholder={placeholder}
       className={className}
       variant={variant}
     />

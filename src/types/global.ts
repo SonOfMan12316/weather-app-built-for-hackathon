@@ -33,6 +33,7 @@ export interface UsableDropdownProps {
   icon?: string | ReactNode
   showLine?: boolean
   variant?: 'unit' | 'days'
+  placeholder?: string
 }
 
 export type UnitSystem = 'metric' | 'imperial'
