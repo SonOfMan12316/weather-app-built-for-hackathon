@@ -18,6 +18,7 @@ const Header = () => {
           onSwitchSystem={(next) => setSystem(next)}
           icon={<Setting />}
           showLine={true}
+          variant="unit"
         />
       </div>
     </header>

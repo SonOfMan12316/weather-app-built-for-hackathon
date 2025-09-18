@@ -23,6 +23,7 @@ export interface DropdownProps {
   system?: string
   onSwitchSystem?: (s: UnitSystem) => void
   showLine?: boolean
+  variant?: 'unit' | 'days'
 }
 
 export interface UsableDropdownProps {
@@ -31,6 +32,22 @@ export interface UsableDropdownProps {
   className?: string
   icon?: string | ReactNode
   showLine?: boolean
+  variant?: 'unit' | 'days'
 }
 
 export type UnitSystem = 'metric' | 'imperial'
+export type Day =
+  | 'Monday'
+  | 'Tuesday'
+  | 'Wednesday'
+  | 'Thursday'
+  | 'Friday'
+  | 'Saturday'
+  | 'Sunday'
+
+export interface svgProp {
+  svgWidth: string
+  svgHeight: string
+  rectWidth: string
+  rectHeight: string
+}

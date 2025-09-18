@@ -22,6 +22,7 @@ const Dropdown = ({
   system,
   onSwitchSystem,
   showLine,
+  variant,
 }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useClickOutside(() => setIsOpen(false))
@@ -54,27 +55,36 @@ const Dropdown = ({
 
   const hasGroups = options.length > 0 && 'title' in options[0]
 
-  const iconClass = classnames('mr-1', {
+  const iconClass = classnames({
     'font-medium': typeof icon === 'string',
-    'ml-4 left-0': placement === 'start',
+    'left-0': placement === 'start',
   })
 
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>
       <button
-        className="h-10 flex space-x-2 lg:space-x-3 items-center bg-ch-neutral-800 text-white rounded-lg font-medium text-xs"
+        className={classnames(
+          `h-10 flex space-x-2 px-3 items-center bg-ch-neutral-800 text-white rounded-lg font-medium text-xs`,
+          { 'bg-ch-neutral-800': variant === 'unit' },
+          { 'bg-ch-neutral-600': variant === 'days' }
+        )}
         onClick={() => setIsOpen(!isOpen)}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >
         {icon && <span className={iconClass}>{icon}</span>}
-        {getSelectedLabel()}
+        <span className="leading-none">{getSelectedLabel()}</span>
         <DropdownIcon />
-        <span className={`dropdown-arrow ${isOpen ? 'open' : ''}`}></span>
       </button>
       {isOpen && (
         <div
-          className="absolute right-0 mt-1.5 py-2 px-1.5 w-12.65 border border-ch-neutral-600 bg-ch-neutral-800 rounded-lg text-white"
+          className={classnames(
+            'absolute right-0 mt-1.5 py-2 px-1.5 w-12.65 border border-ch-neutral-600 bg-ch-neutral-800 rounded-lg text-white z-50',
+            {
+              'animate-dropdown': isOpen,
+              'animate-dropdown-reverse': !isOpen,
+            }
+          )}
           role="listbox"
         >
           {hasGroups
@@ -147,6 +157,7 @@ export const UnitsDropdown = ({
   system,
   onSwitchSystem,
   showLine,
+  variant,
 }: UsableDropdownProps & {
   system: UnitSystem
   onSwitchSystem: (s: UnitSystem) => void
@@ -162,6 +173,7 @@ export const UnitsDropdown = ({
         system={system}
         onSwitchSystem={onSwitchSystem}
         showLine={showLine}
+        variant={variant}
       />
     </div>
   )
@@ -171,14 +183,16 @@ export const DaysDropdown = ({
   onSelect,
   selectedValue,
   className,
+  variant,
 }: UsableDropdownProps) => {
   return (
     <Dropdown
       options={dayGroups}
       onSelect={onSelect}
       selectedValue={selectedValue}
-      placeholder="Monday"
+      placeholder="Tuesday"
       className={className}
+      variant={variant}
     />
   )
 }
