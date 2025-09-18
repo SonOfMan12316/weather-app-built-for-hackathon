@@ -1,15 +1,26 @@
-const Fog = ({ className = '', ...props }) => {
+import { type svgProp } from '../../types/global'
+const Fog = ({
+  svgHeight,
+  svgWidth,
+  rectWidth,
+  rectHeight,
+  ...props
+}: svgProp) => {
   return (
     <svg
-      width="80"
-      height="80"
-      viewBox="0 0 80 80"
+      width={svgWidth}
+      height={svgHeight}
+      viewBox={`0 0 svgWidth svgHeight`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       {...props}
     >
-      <rect width="80" height="80" fill="url(#pattern0_171_140)" />
+      <rect
+        width={rectWidth}
+        height={rectHeight}
+        fill="url(#pattern0_171_140)"
+      />
       <defs>
         <pattern
           id="pattern0_171_140"

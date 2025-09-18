@@ -1,26 +1,39 @@
-const Sun = ({ className = '', ...props }) => {
+import { type svgProp } from '../../types/global'
+
+const Sun = ({
+  svgHeight,
+  svgWidth,
+  rectWidth,
+  rectHeight,
+  ...props
+}: svgProp) => {
   return (
     <svg
-      width="121"
-      height="120"
-      viewBox="0 0 121 120"
+      width={svgWidth}
+      height={svgHeight}
+      viewBox={`0 0 svgWidth svgHeight`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       {...props}
     >
-      <rect x="0.5" width="120" height="120" fill="url(#pattern0_300_924)" />
+      <rect
+        x="0.149902"
+        width={rectWidth}
+        height={rectHeight}
+        fill="url(#pattern0_300_725)"
+      />
       <defs>
         <pattern
-          id="pattern0_300_924"
+          id="pattern0_300_725"
           patternContentUnits="objectBoundingBox"
           width="1"
           height="1"
         >
-          <use xlinkHref="#image0_300_924" transform="scale(0.000925926)" />
+          <use xlinkHref="#image0_300_725" transform="scale(0.000925926)" />
         </pattern>
         <image
-          id="image0_300_924"
+          id="image0_300_725"
           width="1080"
           height="1080"
           preserveAspectRatio="none"

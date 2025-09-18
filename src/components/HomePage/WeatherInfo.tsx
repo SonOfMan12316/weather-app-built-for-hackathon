@@ -4,8 +4,8 @@ import InfoCard from '../global/InfoCard'
 
 const WeatherInfo = () => {
   return (
-    <div className="">
-      <div className="bg-mobileBg md:bg-desktopBg mt-4 md:mt-6 py-auto sm:px-4 mb-3.5 bg-cover bg-no-repeat h-[220px] rounded-b-3xl flex flex-col sm:flex-row justify-center sm:justify-between items-center text-white">
+    <div className="lg:mt-7">
+      <div className="bg-mobileBg md:bg-desktopBg mt-4 md:mt-6 py-auto sm:px-4 mb-3.5 lg:mb-6 bg-cover bg-no-repeat h-[220px] lg:h-[270px] rounded-b-3xl flex flex-col sm:flex-row justify-center sm:justify-between items-center text-white">
         <div>
           <h1 className="font-semibold text-base">Berlin, Germany</h1>
           <h2 className="text-xs font-light text-center md:text-start text-white">
@@ -13,7 +13,7 @@ const WeatherInfo = () => {
           </h2>
         </div>
         <div className="flex items-center">
-          <Sun />
+          <Sun svgWidth="61" svgHeight="60" rectWidth="60" rectHeight="60" />
           <h3 className="font-semibold text-4xl italic">68°</h3>
         </div>
       </div>
