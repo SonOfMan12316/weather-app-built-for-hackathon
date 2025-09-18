@@ -60,7 +60,7 @@ module.exports = {
         '5xl': ['8rem'],
       },
       width: {
-        12.65: '12.65rem',
+        12.65: '13.5rem',
       },
       keyframes: {
         fadeIn: {
