@@ -114,7 +114,9 @@ const Dropdown = ({
                             'flex justify-between hover:bg-ch-neutral-700 items-center font-normal cursor-pointer rounded-lg pl-1.5 px-1.5 py-2 mb-1 text-white',
                             {
                               'bg-ch-neutral-700':
-                                activeUnitSystem || isSelected,
+                                activeUnitSystem ||
+                                isSelected ||
+                                selectedValue === option.label,
                               'pb-2.5': option.value === 'switch',
                             }
                           )}
