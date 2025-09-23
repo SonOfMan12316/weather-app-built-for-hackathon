@@ -8,70 +8,18 @@ import {
   Thunderstorm,
   OverCast,
 } from '../components/icons'
+import { type IconBankType } from '../types/global'
 
-export const WeatherDetails = [
-  {
-    title: 'feels like',
-    value: '64°',
-  },
-  {
-    title: 'humidity',
-    value: '46' + '%',
-  },
-  {
-    title: 'Wind',
-    value: '9' + ' mph',
-  },
-  {
-    title: 'Precipitation',
-    value: '0' + ' in',
-  },
-]
-
-export const ForeCastDetails = [
-  {
-    day: 'Tue',
-    icon: Rain,
-    minTemp: '68°',
-    maxTemp: '57°',
-  },
-  {
-    day: 'Wed',
-    icon: Drizzle,
-    minTemp: '70°',
-    maxTemp: '59°',
-  },
-  {
-    day: 'Thu',
-    icon: Sun,
-    minTemp: '75°',
-    maxTemp: '57°',
-  },
-  {
-    day: 'Fri',
-    icon: PartlyCloudy,
-    minTemp: '77°',
-    maxTemp: '55°',
-  },
-  {
-    day: 'Sat',
-    icon: Thunderstorm,
-    minTemp: '70°',
-    maxTemp: '59°',
-  },
-  {
-    day: 'Sun',
-    icon: Snow,
-    minTemp: '77°',
-    maxTemp: '61°',
-  },
-  {
-    day: 'Mon',
-    icon: Fog,
-    minTemp: '75°',
-    maxTemp: '59°',
-  },
-]
+export const iconBank: IconBankType = {
+  Rain: Rain,
+  Sun: Sun,
+  Snow: Snow,
+  Drizzle: Drizzle,
+  Fog: Fog,
+  Thunderstorm: Thunderstorm,
+  Overcast: OverCast,
+  PartlyCloudy: PartlyCloudy,
+}
 
 export const HourlyForecastDetails = [
   {
