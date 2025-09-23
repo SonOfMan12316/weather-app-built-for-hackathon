@@ -23,6 +23,7 @@ const Dropdown = ({
   onSwitchSystem,
   showLine,
   variant,
+  data,
 }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useClickOutside(() => setIsOpen(false))
@@ -73,7 +74,7 @@ const Dropdown = ({
         aria-expanded={isOpen}
       >
         {icon && <span className={iconClass}>{icon}</span>}
-        <span className="leading-none">{getSelectedLabel()}</span>
+        <span className="leading-none">{data ? getSelectedLabel() : '-'}</span>
         <DropdownIcon />
       </button>
       {isOpen && (
@@ -162,6 +163,7 @@ export const UnitsDropdown = ({
   onSwitchSystem,
   showLine,
   variant,
+  data,
 }: UsableDropdownProps & {
   system: UnitSystem
   onSwitchSystem: (s: UnitSystem) => void
@@ -178,6 +180,7 @@ export const UnitsDropdown = ({
         onSwitchSystem={onSwitchSystem}
         showLine={showLine}
         variant={variant}
+        data={data}
       />
     </div>
   )
@@ -189,6 +192,7 @@ export const DaysDropdown = ({
   className,
   variant,
   placeholder,
+  data,
 }: UsableDropdownProps) => {
   return (
     <Dropdown
@@ -198,6 +202,7 @@ export const DaysDropdown = ({
       placeholder={placeholder}
       className={className}
       variant={variant}
+      data={data}
     />
   )
 }
