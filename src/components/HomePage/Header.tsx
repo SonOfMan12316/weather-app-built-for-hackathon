@@ -19,6 +19,7 @@ const Header = () => {
           icon={<Setting />}
           showLine={true}
           variant="unit"
+          data={system}
         />
       </div>
     </header>

@@ -10,7 +10,7 @@ import { Loading } from '../icons'
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
   className?: string
-  variant?: 'primary'
+  variant?: 'primary' | 'secondary'
   type?: 'button'
   loading?: boolean
   disabled?: boolean
@@ -39,13 +39,15 @@ const Button = forwardRef(
           {
             'bg-ch-light-blue hover:bg-ch-dark-blue text-white':
               variant === 'primary',
+            'bg-ch-neutral-800 text-white': variant === 'secondary',
           },
           { 'text-base md:text-lg': size === 'lg' },
           { 'text-sm md:text-base': size === 'md' },
           { 'text-sm': size === 'sm' },
           { 'text-xs': size === 'xs' },
           {
-            'duration-[400ms] ease-in-out': variant === 'primary',
+            'duration-[400ms] ease-in-out':
+              variant === 'primary' || variant === 'secondary',
           }
         )}
         type={type}
