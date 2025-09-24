@@ -42,7 +42,7 @@ const HourlyForecast = ({ hourlyWeatherInfo, system }: HourlyForecastProp) => {
         <h1 className="text-sm font-semibold text-white">Hourly forecast</h1>
         <DaysDropdown
           onSelect={setSelectedDay}
-          selectedValue={selectedDay}
+          selectedValue={selectedDay || currentDay}
           placeholder={currentDay}
           variant="days"
           data={hourlyWeatherInfo}
