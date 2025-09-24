@@ -3,7 +3,6 @@ import toast from 'react-hot-toast'
 import { Header, WeatherInfo, Forecast, HourlyForecast } from '../HomePage'
 import { Cancel, Reload, Search } from '../icons'
 import { Button, Input } from '../ui'
-import { getCurrentLocationLatitudeAndLongitude } from '../hooks/getCurrentLocation'
 import {
   type CurrentWeather,
   type DailyWeather,
@@ -31,12 +30,20 @@ const Home = () => {
     useState<boolean>(false)
   const [error, setError] = useState<boolean>(false)
   const [system, setSystem] = useState<UnitSystem>('metric')
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  const [city, setCity] = useState('')
+  const [country, setCountry] = useState('')
+  const [hasSearched, setHasSearched] = useState(false)
+  const [searchError, setSearchError] = useState(false)
 
   const fetchWeather = async (
     lat: number | undefined,
     long: number | undefined
   ) => {
     setIsLoadingWeatherData(true)
+    setHasSearched(true)
+    setError(false)
+
     try {
       const response = await fetch(
         `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=temperature_2m,relative_humidity_2m,weather_code,precipitation,wind_speed_10m&hourly=temperature_2m,weather_code&daily=temperature_2m_max,weather_code,temperature_2m_min&timezone=auto`
@@ -50,23 +57,44 @@ const Home = () => {
     } finally {
       setError(false)
       setIsLoadingWeatherData(false)
-      setError(false)
+    }
+  }
+
+  const fetchCoordinates = async (cityName: string) => {
+    if (cityName.trim() === '') {
+      toast.error('Please enter a city name')
+      return
+    }
+
+    setSearchError(false)
+
+    try {
+      const response = await fetch(
+        `https://api.geoapify.com/v1/geocode/search?city=${cityName}&format=json&apiKey=import.meta.env.VITE_WEATHER_API_KEY`
+      )
+      const data = await response.json()
+      if (data.results.length > 0) {
+        setCity(data.results[0].city)
+        setCountry(data.results[0].country)
+        setLocation({
+          lat: data.results[0].lat,
+          lon: data.results[0].lon,
+        })
+      } else {
+        setSearchError(true)
+        setWeather(null)
+      }
+    } catch {
+      toast.error('Error fetching coordinates')
+      setSearchError(true)
     }
   }
 
   useEffect(() => {
-    getCurrentLocationLatitudeAndLongitude((error, location) => {
-      if (error) {
-        setError(true)
-        toast.error('Error getting latitude and longitude')
-      }
-      if (location) {
-        const { lat, lon } = location
-        setLocation({ lat, lon })
-        fetchWeather(location.lat, location.lon)
-      }
-    })
-  }, [])
+    if (location) {
+      fetchWeather(location.lat, location.lon)
+    }
+  }, [location])
 
   useEffect(() => {
     if (weather) {
@@ -107,39 +135,56 @@ const Home = () => {
               How’s the sky looking today?
             </h1>
           </div>
-          <div className="mt-4 flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-3 sm:w-9/12 lg:w-6/12 xl:w-[55%] sm:mx-auto">
-            <div className="sm:w-10/12">
-              <Input
-                placeholder="Search for a place..."
-                variant="search"
-                icon={<Search />}
-              />
+          <div>
+            <div className="mt-4 flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-3 sm:w-9/12 lg:w-6/12 xl:w-[55%] sm:mx-auto">
+              <div className="sm:w-10/12">
+                <Input
+                  placeholder="Search for a place..."
+                  variant="search"
+                  icon={<Search />}
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value.replace(/[^a-zA-Z\s]/g, ''))
+                  }}
+                />
+              </div>
+              <div className="sm:w-2/12 sm:max-w-[85px]">
+                <Button size="xs" onClick={() => fetchCoordinates(searchQuery)}>
+                  Search
+                </Button>
+              </div>
             </div>
-            <div className="sm:w-2/12 sm:max-w-[85px]">
-              <Button size="xs">Search</Button>
-            </div>
+            {searchError && (
+              <span className="text-center mt-10 font-sm font-semibold text-white mx-auto block">
+                No search result found!
+              </span>
+            )}
           </div>
-          <div className="lg:flex lg:gap-x-6">
-            <div className="lg:w-2/3 space-y-6">
-              <WeatherInfo
-                isLoadingWeatherData={isLoadingWeatherData}
-                currentWeatherInfo={currentWeatherInfo}
-                system={system}
-              />
-              <Forecast
-                isLoadingWeatherData={isLoadingWeatherData}
-                dailyWeatherInfo={dailyWeatherInfo}
-                system={system}
-              />
+          {hasSearched && !searchError && (
+            <div className="lg:flex lg:gap-x-6">
+              <div className="lg:w-2/3 space-y-6">
+                <WeatherInfo
+                  isLoadingWeatherData={isLoadingWeatherData}
+                  currentWeatherInfo={currentWeatherInfo}
+                  system={system}
+                  city={city}
+                  country={country}
+                />
+                <Forecast
+                  isLoadingWeatherData={isLoadingWeatherData}
+                  dailyWeatherInfo={dailyWeatherInfo}
+                  system={system}
+                />
+              </div>
+              <div className="lg:w-1/3">
+                <HourlyForecast
+                  isLoadingWeatherData={isLoadingWeatherData}
+                  hourlyWeatherInfo={hourlyWeatherInfo}
+                  system={system}
+                />
+              </div>
             </div>
-            <div className="lg:w-1/3">
-              <HourlyForecast
-                isLoadingWeatherData={isLoadingWeatherData}
-                hourlyWeatherInfo={hourlyWeatherInfo}
-                system={system}
-              />
-            </div>
-          </div>
+          )}
         </>
       )}
     </div>

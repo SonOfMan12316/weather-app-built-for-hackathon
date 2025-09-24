@@ -1,7 +1,4 @@
-import { useState, useEffect } from 'react'
 import InfoCard from '../global/InfoCard'
-import toast from 'react-hot-toast'
-import { getCurrentLocationLatitudeAndLongitude } from '../hooks/getCurrentLocation'
 import { getFullDate } from '../../utils/date'
 import { type CurrentWeather, type UnitSystem } from '../../types/global'
 import { LoadingDots } from '../ui'
@@ -17,47 +14,17 @@ interface WeatherInfoProps {
   currentWeatherInfo: CurrentWeather | null
   isLoadingWeatherData: boolean
   system: UnitSystem
+  city: string
+  country: string
 }
 
-const WeatherInfo = ({ currentWeatherInfo, system }: WeatherInfoProps) => {
-  const [isLoading, setIsLoading] = useState(false)
-  const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(
-    null
-  )
-  const [city, setCity] = useState('')
-  const [country, setCountry] = useState('')
-
-  useEffect(() => {
-    getCurrentLocationLatitudeAndLongitude((error, location) => {
-      if (error) {
-        toast.error('Error getting latitude and longitude')
-      }
-      if (location) {
-        setCoords(location)
-      }
-    })
-  }, [])
-
-  useEffect(() => {
-    if (!coords) return
-
-    setIsLoading(true)
-
-    fetch(
-      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${coords?.lat}&longitude=${coords?.lon}&localityLanguage=en`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setCity(data.city)
-        setCountry(data.countryName)
-        setIsLoading(false)
-      })
-      .catch((err) => toast.error(`${err}`))
-      .finally(() => {
-        setIsLoading(false)
-      })
-  }, [coords])
-
+const WeatherInfo = ({
+  currentWeatherInfo,
+  system,
+  city,
+  country,
+  isLoadingWeatherData,
+}: WeatherInfoProps) => {
   const temperature =
     system === 'metric'
       ? `${currentWeatherInfo?.temperature_2m.toFixed(0)}°C`
@@ -106,7 +73,7 @@ const WeatherInfo = ({ currentWeatherInfo, system }: WeatherInfoProps) => {
             : 'bg-mobileBg md:bg-desktopBg bg-cover bg-no-repeat'
         } mt-4 md:mt-6 py-auto sm:px-4 mb-3.5 lg:mb-6 h-[220px] lg:h-[270px] rounded-b-3xl flex flex-col sm:flex-row justify-center sm:justify-between items-center text-white rounded-3xl`}
       >
-        {!currentWeatherInfo ? (
+        {isLoadingWeatherData ? (
           <div className="mx-auto flex flex-col justify-center items-center">
             <LoadingDots />
             <span className="text-ch-light-grey text-xs font-medium mt-1">
@@ -117,7 +84,7 @@ const WeatherInfo = ({ currentWeatherInfo, system }: WeatherInfoProps) => {
           currentWeatherInfo && (
             <>
               <div>
-                {!isLoading && city && country && (
+                {city && country && (
                   <h1 className="font-bold text-lg">
                     {city}, {country}
                   </h1>
