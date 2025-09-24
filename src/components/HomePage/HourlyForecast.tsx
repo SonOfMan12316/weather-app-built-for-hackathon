@@ -1,20 +1,22 @@
 import { useState } from 'react'
 import { DaysDropdown } from '../ui/DropDown'
 import { getDay, getTime } from '../../utils/date'
-import type { HourlyWeather } from '../../types/global'
+import type { HourlyWeather, UnitSystem } from '../../types/global'
 import { getWeatherIconName } from '../../utils/global'
 import { iconBank } from '../../data/WeatherDeatails'
+import { celsiusToFahrenheit } from '../../utils/conversion'
 
 interface HourlyForecastProp {
   isLoadingWeatherData?: boolean
   hourlyWeatherInfo: HourlyWeather | null
+  system: UnitSystem
 }
 
 const HourlyForecastSkeleton = () => (
   <div className="border border-ch-neutral-600 bg-ch-neutral-700 rounded-lg h-[57px]"></div>
 )
 
-const HourlyForecast = ({ hourlyWeatherInfo }: HourlyForecastProp) => {
+const HourlyForecast = ({ hourlyWeatherInfo, system }: HourlyForecastProp) => {
   const [selectedDay, setSelectedDay] = useState('')
   const [currentDay] = useState<string>(() => getDay(''))
 
@@ -57,7 +59,10 @@ const HourlyForecast = ({ hourlyWeatherInfo }: HourlyForecastProp) => {
               }
 
               const Icon = iconBank[getWeatherIconName(forecast.weather_code)]
-
+              const temperature =
+                system === 'metric'
+                  ? (forecast.temperature_2m || 0).toFixed(0)
+                  : celsiusToFahrenheit(forecast.temperature_2m || 0).toFixed(0)
               return (
                 <div
                   key={index}
@@ -74,9 +79,7 @@ const HourlyForecast = ({ hourlyWeatherInfo }: HourlyForecastProp) => {
                       {getTime(forecast.time)}
                     </h1>
                   </div>
-                  <h1 className="text-white mt-1">
-                    {forecast.temperature_2m}°
-                  </h1>
+                  <h1 className="text-white mt-1">{temperature}°</h1>
                 </div>
               )
             })}

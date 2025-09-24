@@ -8,6 +8,7 @@ import {
   type CurrentWeather,
   type DailyWeather,
   type HourlyWeather,
+  type UnitSystem,
   type WeatherInterface,
 } from '../../types/global'
 
@@ -29,6 +30,7 @@ const Home = () => {
   const [isLoadingWeatherData, setIsLoadingWeatherData] =
     useState<boolean>(false)
   const [error, setError] = useState<boolean>(false)
+  const [system, setSystem] = useState<UnitSystem>('metric')
 
   const fetchWeather = async (
     lat: number | undefined,
@@ -76,7 +78,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen px-3 md:px-6 lg:px-16 xl:px-20 pb-4 bg-ch-neutral-900 text-ch-neutral-900">
-      <Header />
+      <Header system={system} setSystem={setSystem} />
       {error ? (
         <div className="flex flex-col justify-center items-center my-10">
           <Cancel />
@@ -122,16 +124,19 @@ const Home = () => {
               <WeatherInfo
                 isLoadingWeatherData={isLoadingWeatherData}
                 currentWeatherInfo={currentWeatherInfo}
+                system={system}
               />
               <Forecast
                 isLoadingWeatherData={isLoadingWeatherData}
                 dailyWeatherInfo={dailyWeatherInfo}
+                system={system}
               />
             </div>
             <div className="lg:w-1/3">
               <HourlyForecast
                 isLoadingWeatherData={isLoadingWeatherData}
                 hourlyWeatherInfo={hourlyWeatherInfo}
+                system={system}
               />
             </div>
           </div>

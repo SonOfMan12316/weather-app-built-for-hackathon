@@ -3,20 +3,23 @@ import InfoCard from '../global/InfoCard'
 import toast from 'react-hot-toast'
 import { getCurrentLocationLatitudeAndLongitude } from '../hooks/getCurrentLocation'
 import { getFullDate } from '../../utils/date'
-import { type CurrentWeather } from '../../types/global'
+import { type CurrentWeather, type UnitSystem } from '../../types/global'
 import { LoadingDots } from '../ui'
 import { iconBank } from '../../data/WeatherDeatails'
 import { getWeatherIconName } from '../../utils/global'
+import {
+  celsiusToFahrenheit,
+  kmhtoMph,
+  mmToInches,
+} from '../../utils/conversion'
 
 interface WeatherInfoProps {
   currentWeatherInfo: CurrentWeather | null
   isLoadingWeatherData: boolean
+  system: UnitSystem
 }
 
-const WeatherInfo = ({
-  currentWeatherInfo,
-  isLoadingWeatherData,
-}: WeatherInfoProps) => {
+const WeatherInfo = ({ currentWeatherInfo, system }: WeatherInfoProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(
     null
@@ -55,10 +58,17 @@ const WeatherInfo = ({
       })
   }, [coords])
 
+  const temperature =
+    system === 'metric'
+      ? `${currentWeatherInfo?.temperature_2m.toFixed(0)}°C`
+      : `${celsiusToFahrenheit(currentWeatherInfo?.temperature_2m || 0).toFixed(
+          0
+        )}°F`
+
   const WeatherDetails = [
     {
       title: 'feels like',
-      value: `${currentWeatherInfo?.temperature_2m + '°'}`,
+      value: temperature,
     },
     {
       title: 'humidity',
@@ -66,11 +76,21 @@ const WeatherInfo = ({
     },
     {
       title: 'Wind',
-      value: `${currentWeatherInfo?.wind_speed_10m + 'km/h'}`,
+      value:
+        system === 'metric'
+          ? `${currentWeatherInfo?.wind_speed_10m.toFixed(0)} km/h`
+          : `${kmhtoMph(currentWeatherInfo?.wind_speed_10m || 0).toFixed(
+              0
+            )} mph`,
     },
     {
       title: 'Precipitation',
-      value: `${currentWeatherInfo?.precipitation + ' mm'}`,
+      value:
+        system === 'metric'
+          ? `${currentWeatherInfo?.precipitation.toFixed(0)} mm`
+          : `${mmToInches(currentWeatherInfo?.precipitation || 0).toFixed(
+              0
+            )} in`,
     },
   ]
 
@@ -81,7 +101,7 @@ const WeatherInfo = ({
     <div className="lg:mt-7">
       <div
         className={`${
-          isLoading || isLoadingWeatherData
+          !currentWeatherInfo
             ? 'bg-ch-neutral-800'
             : 'bg-mobileBg md:bg-desktopBg bg-cover bg-no-repeat'
         } mt-4 md:mt-6 py-auto sm:px-4 mb-3.5 lg:mb-6 h-[220px] lg:h-[270px] rounded-b-3xl flex flex-col sm:flex-row justify-center sm:justify-between items-center text-white rounded-3xl`}
@@ -114,7 +134,7 @@ const WeatherInfo = ({
                   rectHeight="120"
                 />
                 <h3 className="font-semibold text-2xl sm:text-[6rem] italic">
-                  {currentWeatherInfo.temperature_2m}°
+                  {temperature}
                 </h3>
               </div>
             </>

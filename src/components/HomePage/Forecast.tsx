@@ -1,11 +1,13 @@
-import type { DailyWeather } from '../../types/global'
+import type { DailyWeather, UnitSystem } from '../../types/global'
 import { getDay } from '../../utils/date'
 import { getWeatherIconName } from '../../utils/global'
 import { iconBank } from '../../data/WeatherDeatails'
+import { celsiusToFahrenheit } from '../../utils/conversion'
 
 interface ForecastProps {
   isLoadingWeatherData: boolean
   dailyWeatherInfo: DailyWeather | null
+  system: UnitSystem
 }
 
 const ForecastSkeleton = () => (
@@ -15,6 +17,7 @@ const ForecastSkeleton = () => (
 const Forecast = ({
   isLoadingWeatherData,
   dailyWeatherInfo,
+  system,
 }: ForecastProps) => {
   const arrayForDailyWeatherInfo = dailyWeatherInfo?.time.map((time, index) => {
     return {
@@ -35,6 +38,17 @@ const Forecast = ({
           ? [...Array(7)].map((_, index) => <ForecastSkeleton key={index} />)
           : arrayForDailyWeatherInfo?.map((forecast, index) => {
               const Icon = iconBank[getWeatherIconName(forecast.weather_code)]
+
+              const maxTemperature =
+                system === 'metric'
+                  ? forecast.temperature_2m_max.toFixed(0)
+                  : celsiusToFahrenheit(forecast.temperature_2m_max).toFixed(0)
+
+              const minTemperature =
+                system === 'metric'
+                  ? forecast.temperature_2m_min.toFixed(0)
+                  : celsiusToFahrenheit(forecast.temperature_2m_min).toFixed(0)
+
               return (
                 <div
                   key={index}
@@ -57,11 +71,11 @@ const Forecast = ({
                       </span>
                       <div className="flex justify-between leading-none">
                         <h1 className="text-xs text-white font-light">
-                          {forecast.temperature_2m_min}
+                          {minTemperature}
                           {'°'}
                         </h1>
                         <p className="text-ch-grey text-xs">
-                          {forecast.temperature_2m_max}°
+                          {maxTemperature}°
                         </p>
                       </div>
                     </>

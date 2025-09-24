@@ -4,9 +4,14 @@ import { UnitsDropdown } from '../ui/DropDown'
 import { Setting } from '../icons'
 import { type UnitSystem } from '../../types/global'
 
-const Header = () => {
+interface HeaderProp {
+  system: UnitSystem
+  setSystem: (s: UnitSystem) => void
+}
+
+const Header = ({ system, setSystem }: HeaderProp) => {
   const [selectedUnit, setSelectedUnit] = useState('')
-  const [system, setSystem] = useState<UnitSystem>('metric')
+
   return (
     <header className="w-full py-4 md:py-6">
       <div className="flex items-center justify-between">
