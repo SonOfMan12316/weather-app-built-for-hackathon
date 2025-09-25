@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Logo from '../../assets/logo/logo.svg'
 import { UnitsDropdown } from '../ui/DropDown'
 import { Setting } from '../icons'
@@ -10,7 +9,7 @@ interface HeaderProp {
 }
 
 const Header = ({ system, setSystem }: HeaderProp) => {
-  const [selectedUnit, setSelectedUnit] = useState('')
+  const setSelectedUnit = () => ''
 
   return (
     <header className="w-full py-4 md:py-6">
